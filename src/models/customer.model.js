@@ -1,5 +1,6 @@
 // models/Customer.js
 import mongoose from "mongoose";
+import { Segment } from "./segment.model.js";
 
 const customerSchema = new mongoose.Schema({
   name: { type: String, required: true },

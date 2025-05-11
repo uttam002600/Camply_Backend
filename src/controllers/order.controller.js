@@ -17,7 +17,7 @@ const createOrder = async (req, res) => {
   try {
     const orderData = req.body;
 
-    // Validate required fields
+    // 1. Validate required fields (excluding order_id since we'll generate it)
     if (!orderData.customer_id || !orderData.items || !orderData.total) {
       return res.status(400).json({
         success: false,
@@ -25,11 +25,15 @@ const createOrder = async (req, res) => {
       });
     }
 
-    // Generate unique order ID if not provided
+    // 2. Generate order_id if not provided (FIXED)
     if (!orderData.order_id) {
-      orderData.order_id = `ORD-${Date.now()}`;
+      orderData.order_id = `ORD-${Date.now()}-${Math.floor(
+        Math.random() * 1000
+      )}`;
+      // Added random suffix to prevent collisions
     }
 
+    // 3. Create and save order
     const order = new Order(orderData);
     await order.save();
 
@@ -40,10 +44,17 @@ const createOrder = async (req, res) => {
     });
   } catch (error) {
     if (error.code === 11000) {
-      // Duplicate key error
       return res.status(400).json({
         success: false,
-        message: "Order ID already exists",
+        message: "Order ID already exists - please try again",
+      });
+    }
+    if (error.name === "ValidationError") {
+      // Handle specific Mongoose validation errors
+      return res.status(400).json({
+        success: false,
+        message: "Validation failed: " + error.message,
+        errors: error.errors,
       });
     }
     handleError(res, error, "Failed to create order");

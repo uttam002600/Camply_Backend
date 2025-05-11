@@ -1,6 +1,16 @@
 // models/Segment.js
 import mongoose from "mongoose";
 
+const buildSegmentQuery = (rules) => {
+  const query = {};
+  rules.rules.forEach((rule) => {
+    // Example: Convert rules to MongoDB syntax
+    if (rule.operator === ">") query[rule.field] = { $gt: rule.value };
+    // Add other operators (==, <, contains, etc.)
+  });
+  return query;
+};
+
 const ruleSchema = new mongoose.Schema({
   field: {
     type: String,
@@ -64,4 +74,4 @@ segmentSchema.statics.getEstimatedCount = async function (rules) {
   return Customer.countDocuments(query);
 };
 
-export const segment = mongoose.model("Segment", segmentSchema);
+export const Segment = mongoose.model("Segment", segmentSchema);
