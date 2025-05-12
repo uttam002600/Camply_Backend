@@ -4,6 +4,7 @@ import authenticate from "../middleware/auth.middleware.js";
 import {
   createCustomer,
   deleteCustomer,
+  getAllCustomers,
   getCustomer,
   getCustomers,
   updateCustomer,
@@ -13,6 +14,7 @@ const router = Router();
 
 router.route("/create").post(createCustomer);
 router.route("/").get(getCustomers);
+router.route("/get").get(getAllCustomers);
 router.route("/:id").get(getCustomer);
 router.route("/:id").put(updateCustomer);
 router.route("/:id").delete(deleteCustomer);

@@ -25,6 +25,7 @@ import authRouter from "./routes/auth.route.js";
 import userRouter from "./routes/user.route.js";
 import customerRouter from "./routes/customer.route.js";
 import orderRouter from "./routes/order.route.js";
+import AIRouter from "./routes/ai.route.js";
 import globalErrorHandler from "./middleware/errorhandler.middleware.js";
 
 // routes declaration
@@ -32,6 +33,7 @@ app.use("/api/auth", authRouter);
 app.use("/api/user", userRouter);
 app.use("/api/customer", customerRouter);
 app.use("/api/order", orderRouter);
+app.use("/api/ai", AIRouter);
 // https://localhost:8000/api/v1/users/xyz
 
 app.use(globalErrorHandler);

@@ -10,6 +10,8 @@
   "author": "Uttam Upadhyay",
   "license": "ISC",
   "dependencies": {
+    "assemblyai": "^4.12.2",
+    "cohere-ai": "^7.17.1",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",

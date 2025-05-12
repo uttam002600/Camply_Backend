@@ -196,3 +196,21 @@ export const deleteCustomer = async (req, res) => {
     handleError(res, error, "Failed to deactivate customer");
   }
 };
+
+export const getAllCustomers = async (req, res) => {
+  try {
+    const customers = await Customer.find().populate("segments");
+
+    res.status(200).json({
+      success: true,
+      count: customers.length,
+      data: customers,
+    });
+  } catch (error) {
+    console.error("Failed to fetch customers:", error.message);
+    res.status(500).json({
+      success: false,
+      message: "Failed to retrieve customers",
+    });
+  }
+};
