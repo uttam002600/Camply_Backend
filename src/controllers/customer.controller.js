@@ -49,18 +49,26 @@ export const getCustomers = async (req, res) => {
   try {
     const {
       page = 1,
-      limit = 10,
+      limit = 100,
       search = "",
       sort = "-created_at",
+      city = "",
+      gender = "",
     } = req.query;
+
     const skip = (page - 1) * limit;
 
+    // Build filter object dynamically
     const filter = {
       $or: [
         { name: { $regex: search, $options: "i" } },
         { email: { $regex: search, $options: "i" } },
       ],
     };
+
+    // Add optional filters
+    if (city) filter["address.city"] = { $regex: city, $options: "i" };
+    if (gender) filter["demographics.gender"] = gender.toLowerCase();
 
     const customers = await Customer.find(filter)
       .sort(sort)
